@@ -16,5 +16,3 @@ Instructions :
 * Or you can opne the file online from [here.](https://nouraal.github.io/Neighborhood-Map-master/)
 
 ===============================
-
-### 
