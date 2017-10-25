@@ -265,7 +265,6 @@ function initMap() {
         bounds.extend(marker.position);
         //------ when click on the marker happen ----------
         marker.addListener('click', addListener);
-        //-------------- markers Colour -------------------
 
         // Two event listeners - one for mouseover, one for mouseout,
         // to change the colors back and forth.
@@ -276,15 +275,15 @@ function initMap() {
     function addListener() {
         populateInfoWindow(this, largeInfowindow);
         map.setZoom(14);
-    };
-
+    }
+    //-------------- markers Colour -------------------
     function mouseover() {
         this.setIcon(highlightedIcon);
-    };
+    }
 
     function mouseout() {
         this.setIcon(defaultIcon);
-    };
+    }
 }
 //-------------------------------------------------
 populateInfoWindow = function(marker, infowindow) {
