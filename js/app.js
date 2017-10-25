@@ -214,6 +214,8 @@ function initMap() {
     map.mapTypes.set('styled_map', styledMapType);
     map.setMapTypeId('styled_map');
 
+    var defaultIcon = makeMarkerIcon('66cc00');
+    var highlightedIcon = makeMarkerIcon('e67300');
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
     //------------the View Model part ------------------------------
@@ -222,7 +224,7 @@ function initMap() {
         query: ko.observable(''),
 
         search: function(value) {
-            viewModel.locations([]) //.removeAll();
+            viewModel.locations([]); //.removeAll();
 
             for (var x = 0; x < locations.length; x++) {
                 var doesMatch = locations[x].title.toLowerCase().indexOf(value.toLowerCase()) >= 0; // true or false
@@ -258,26 +260,31 @@ function initMap() {
             id: i
         });
         //-------------------------------------------------
-        locations[i].marker = marker
+        locations[i].marker = marker;
         markers.push(marker);
         bounds.extend(marker.position);
         //------ when click on the marker happen ----------
-        marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
-            map.setZoom(14);
-        });
+        marker.addListener('click', addListener);
         //-------------- markers Colour -------------------
-        var defaultIcon = makeMarkerIcon('66cc00');
-        var highlightedIcon = makeMarkerIcon('e67300');
+
         // Two event listeners - one for mouseover, one for mouseout,
         // to change the colors back and forth.
-        marker.addListener('mouseover', function() {
-            this.setIcon(highlightedIcon);
-        });
-        marker.addListener('mouseout', function() {
-            this.setIcon(defaultIcon);
-        });
+        marker.addListener('mouseover', mouseover);
+        marker.addListener('mouseout', mouseout);
     }
+
+    function addListener() {
+        populateInfoWindow(this, largeInfowindow);
+        map.setZoom(14);
+    };
+
+    function mouseover() {
+        this.setIcon(highlightedIcon);
+    };
+
+    function mouseout() {
+        this.setIcon(defaultIcon);
+    };
 }
 //-------------------------------------------------
 populateInfoWindow = function(marker, infowindow) {
@@ -315,8 +322,8 @@ populateInfoWindow = function(marker, infowindow) {
             map.setZoom(11);
             map.setCenter(new google.maps.LatLng(24.799171, 46.738380));
         });
-    };
-}
+    }
+};
 
 // This function takes in a COLOR, and then creates a new marker
 // icon of that color. The icon will be 21 px wide by 34 high, have an origin
