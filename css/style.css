@@ -6,11 +6,6 @@ body {
   padding: 0;
 }
 
-.container {
-  height: 100%;
-  position: relative;
-}
-
 input {
   font-size: 12px;
 }
@@ -48,6 +43,11 @@ hr {
   right: 0px;
 }
 
+.container {
+  height: 100%;
+  position: relative;
+}
+
 .options-box {
   background-color: #d49311;
   border-radius: 3px;
@@ -69,7 +69,7 @@ hr {
   margin: 0px 0 0px 10px;
 }
 
-/*-----------------------------*/
+/*----- Mobile: max-width 770px like iPad -----*/
 @media screen and (max-width: 770px) {
   #map {
     left: 0;
@@ -88,7 +88,7 @@ hr {
     text-align: center;
   }
 }
-
+/*----- Mobile: max-width 415px like iPhone 6 Plus -----*/
 @media screen and (max-width: 415px) {
   .options-box {
     width: 190px;
@@ -131,7 +131,7 @@ hr {
     margin: 0 0 5px;
   }
 }
-
+/*---- Mobile: max-width 360px like Google Nexus 5 ---------*/
 @media screen and (max-width: 360px) {
   .options-box {
     width: 145px;
