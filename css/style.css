@@ -43,11 +43,6 @@ hr {
   right: 0px;
 }
 
-.container {
-  height: 100%;
-  position: relative;
-}
-
 .options-box {
   background-color: #d49311;
   border-radius: 3px;
@@ -73,10 +68,22 @@ hr {
 @media screen and (max-width: 770px) {
   #map {
     left: 0;
+    z-index: -1;
+  }
+
+  h2 {
+    margin: 0;
+    display: none;
+  }
+
+  hr {
+    display: none;
   }
 
   .options-box {
     width: 300px;
+    margin-top: 46px;
+    z-index: 1;
   }
 
   li {

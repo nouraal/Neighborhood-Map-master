@@ -1,52 +1,6 @@
 var map;
 var markers = ko.observableArray();
 
-//----------------------the data 'Location'----------------------
-var locations = [{
-    title: 'Kingdom Centre',
-    description: 'Kingdom Centre (Arabic: \u0628\u0631\u062c \u0627\u0644\u0645\u0645\u0644\u0643\u0629\u200e\u200e), is a 99-storey, 302.3 m (992 ft) skyscraper in Riyadh, Saudi Arabia.',
-    location: {
-        lat: 24.711534,
-        lng: 46.674345
-    }
-}, {
-    title: 'King Abdullah Financial District',
-    description: 'The King Abdullah Financial District (KAFD) is a new development under construction near King Fahad Road in the Al Aqeeq area of Riyadh, Saudi Arabia being undertaken by the Rayadah Investment Corporation on behalf of the Pension Authority of the Kingdom of Saudi Arabia, consisting of 59 towers in an area of 1.6 million square metres.',
-    location: {
-        lat: 24.7635063,
-        lng: 46.6408155
-    }
-}, {
-    title: 'Deera Square',
-    description: '"Deera Square (Arabic: \u0633\u0627\u062d\u0629 \u0627\u0644\u0635\u0641\u0627\u0629\u200e\u200e) is a public space in Riyadh, Saudi Arabia, in which public executions (usually by beheading) take place.',
-    location: {
-        lat: 24.6308575,
-        lng: 46.7118404
-    }
-}, {
-    title: 'Al Faisaliyah Center',
-    description: 'The Al Faisaliyah Centre (or Al Faisaliah Centre, Arabic: \u0628\u0631\u062c \u0627\u0644\u0641\u064a\u0635\u0644\u064a\u0629\u200e\u200e) is a commercial skyscraper located in the business district of Riyadh, Saudi Arabia.',
-    location: {
-        lat: 24.6905765,
-        lng: 46.685097
-    }
-}, {
-    title: 'Princess Nora bint Abdul Rahman University',
-    description: 'Princess Nourah Bint Abdulrahman University PNU (Arabic: \u062c\u0627\u0645\u0639\u0629 \u0627\u0644\u0623\u0645\u064a\u0631\u0629 \u0646\u0648\u0631\u0629 \u0628\u0646\u062a \u0639\u0628\u062f \u0627\u0644\u0631\u062d\u0645\u0646\u200e\u200e) is a public women\u2019s university located in Riyadh, the capital of Saudi Arabia.',
-    location: {
-        lat: 24.8464613,
-        lng: 46.7247308
-    }
-}, {
-    title: 'Jenadriyah',
-    description: 'Al-Jenadriyah (Arabic: \u0645\u0647\u0631\u062c\u0627\u0646 \u0627\u0644\u062c\u0646\u0627\u062f\u0631\u064a\u0629) is a cultural and heritage festival held in Jenadriyah (or Janadriyah) near Riyadh in Saudi Arabia each year, lasting for two weeks.',
-    location: {
-        lat: 24.961509,
-        lng: 46.792472
-    }
-}, ];
-//----------------------------------------------------------------
-
 function initMap() {
     // Create a new StyledMapType object, passing it an array of styles,
     // and the name to be displayed on the map type control.
@@ -215,7 +169,6 @@ function initMap() {
     map.setMapTypeId('styled_map');
 
     var defaultIcon = makeMarkerIcon('66cc00');
-    var highlightedIcon = makeMarkerIcon('e67300');
     var largeInfowindow = new google.maps.InfoWindow();
     var bounds = new google.maps.LatLngBounds();
     //------------the View Model part ------------------------------
@@ -240,10 +193,16 @@ function initMap() {
                 //    locations[x].marker.setVisible(false); 
                 // }
             }
+        },
+        //click event on list to show InfoWindow 
+        infoWindow: function(loc) {
+            google.maps.event.trigger(loc.marker, 'click');
+            // console.log(loc);
         }
     };
     viewModel.query.subscribe(viewModel.search);
     ko.applyBindings(viewModel);
+
 
     //------- create array of markers on the map -----------
     for (var i = 0; i < locations.length; i++) {
@@ -265,24 +224,11 @@ function initMap() {
         bounds.extend(marker.position);
         //------ when click on the marker happen ----------
         marker.addListener('click', addListener);
-
-        // Two event listeners - one for mouseover, one for mouseout,
-        // to change the colors back and forth.
-        marker.addListener('mouseover', mouseover);
-        marker.addListener('mouseout', mouseout);
     }
 
     function addListener() {
         populateInfoWindow(this, largeInfowindow);
         map.setZoom(14);
-    }
-    //-------------- markers Colour -------------------
-    function mouseover() {
-        this.setIcon(highlightedIcon);
-    }
-
-    function mouseout() {
-        this.setIcon(defaultIcon);
     }
 }
 //-------------------------------------------------
@@ -304,22 +250,24 @@ populateInfoWindow = function(marker, infowindow) {
         jsonp: "callback",
         success: function(response) {
             var articleList = response[1];
-            console.log(response);
+            // console.log(response);
             for (var i = 0; i < articleList.length; i++) {
                 var articeSet = articleList[i];
             }
 
             clearTimeout(wikiRequestTimeout);
         }
+
     });
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         infowindow.setContent(data);
         infowindow.open(map, marker);
+        marker.setAnimation(google.maps.Animation.BOUNCE);
         infowindow.addListener('closeclick', function() {
-            // infowindow.setMarker(null);
             map.setZoom(11);
             map.setCenter(new google.maps.LatLng(24.799171, 46.738380));
+            marker.setAnimation(null);
         });
     }
 };
@@ -336,4 +284,8 @@ function makeMarkerIcon(markerColor) {
         new google.maps.Point(10, 34),
         new google.maps.Size(21, 34));
     return markerImage;
+}
+
+function onError() {
+    alert("Oops! Google Map has failed to load. Please check your internet connection and try again.");
 }
