@@ -1,4 +1,4 @@
-Neighborhood map project Version 1.0 24/10/2017
+Neighborhood map project Version 1.1 24/10/2017
 ===============================
 
 it's Project Faif in Frond-End Developer Nanodegree program from Udacity to optimize this online portfolio for speed!.
