@@ -22,10 +22,11 @@ Instructions :
 1. Load google Map to the web page.
 2. create 6 markers locations on the map.
 3. Tracking the click events on markers.
-4. Add functionality to change colors of the map marker.
+4. Animation marker when Click happen.
 5. Useing jQuery's ajax() method.
 6. Useing  Wikipedia's API.
 7. Useing Knockout to handle the list view.
+8. Showing InfoWindow when Click happen on list item.
 
 ### References:
 
