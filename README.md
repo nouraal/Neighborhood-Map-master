@@ -19,7 +19,7 @@ Instructions :
 
 ### what i have done:
 
-1. Load google Map to a web page.
+1. Load google Map to the web page.
 2. create 6 markers locations on the map.
 3. Tracking the click events on markers.
 4. Add functionality to change colors of the map marker.
@@ -31,6 +31,7 @@ Instructions :
 
 *   [Google Maps JavaScript API.](https://developers.google.com/maps/documentation/javascript/)
 *   [Google Maps JavaScript Style.](https://developers.google.com/maps/documentation/javascript/styling)
+*   [Google Maps Marker Animations.](https://developers.google.com/maps/documentation/javascript/examples/marker-animations)
 *   [Knockout Documentation.](http://knockoutjs.com/documentation/introduction.html)
 *   [tutorial search with knockout.js.](http://knockoutjs.com/documentation/introduction.html)
 *   [MediaWiki API for Wikipedia.](https://www.mediawiki.org/wiki/API:Main_page)
