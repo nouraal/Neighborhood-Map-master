@@ -254,7 +254,7 @@ populateInfoWindow = function(marker, infowindow) {
             for (var i = 0; i < articleList.length; i++) {
                 var articeSet = articleList[i];
                 var url = 'http://en.wikipedia.org/wiki/' + articeSet;
-                data = data + '</p><a href=\"' + url + '\"> For more information</a>'
+                data = data + '</p><a href=\"' + url + '\"> For more information</a>';
                 // console.log(data);
 
             }
