@@ -223,69 +223,70 @@ function initMap() {
         markers.push(marker);
         bounds.extend(marker.position);
         //------ when click on the marker happen ----------
+        
         marker.addListener('click', addListener);
     }
 
-    function addListener() {
-        populateInfoWindow(this, largeInfowindow);
-        map.setZoom(14);
+        function addListener() {
+            populateInfoWindow(this, largeInfowindow);
+            map.setZoom(14);
+        }
     }
-}
-//-------------------------------------------------
-populateInfoWindow = function(marker, infowindow) {
-    //----------- wikipedia AJAX request -------------
-    // Set a timeout of 8 seconds to get the Wikipedia articles
-    var wikiRequestTimeout = setTimeout(function() {
-        alert('failed to get wikipedia resources');
-    }, 8000);
+    //-------------------------------------------------
+    populateInfoWindow = function(marker, infowindow) {
+        //----------- wikipedia AJAX request -------------
+        // Set a timeout of 8 seconds to get the Wikipedia articles
+        var wikiRequestTimeout = setTimeout(function() {
+            alert('failed to get wikipedia resources');
+        }, 8000);
 
-    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
-    var url = 'http://en.wikipedia.org/wiki/' + marker.title;
-    var data = '<h4>' + marker.title + '</h4><hr><p>' + marker.description + '</p><a href=\"' + url + '\"> For more information</a>';
+        var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
+        var url = 'http://en.wikipedia.org/wiki/' + marker.title;
+        var data = '<h4>' + marker.title + '</h4><hr><p>' + marker.description + '</p><a href=\"' + url + '\"> For more information</a>';
 
-    // Using jQuery
-    $.ajax({
-        url: wikiUrl,
-        dataType: 'jsonp',
-        jsonp: "callback",
-        success: function(response) {
-            var articleList = response[1];
-            // console.log(response);
-            for (var i = 0; i < articleList.length; i++) {
-                var articeSet = articleList[i];
+        // Using jQuery
+        $.ajax({
+            url: wikiUrl,
+            dataType: 'jsonp',
+            jsonp: "callback",
+            success: function(response) {
+                var articleList = response[1];
+                // console.log(response);
+                for (var i = 0; i < articleList.length; i++) {
+                    var articeSet = articleList[i];
+                }
+
+                clearTimeout(wikiRequestTimeout);
             }
 
-            clearTimeout(wikiRequestTimeout);
-        }
-
-    });
-    if (infowindow.marker != marker) {
-        infowindow.marker = marker;
-        infowindow.setContent(data);
-        infowindow.open(map, marker);
-        marker.setAnimation(google.maps.Animation.BOUNCE);
-        infowindow.addListener('closeclick', function() {
-            map.setZoom(11);
-            map.setCenter(new google.maps.LatLng(24.799171, 46.738380));
-            marker.setAnimation(null);
         });
+        if (infowindow.marker != marker) {
+            infowindow.marker = marker;
+            infowindow.setContent(data);
+            infowindow.open(map, marker);
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            infowindow.addListener('closeclick', function() {
+                map.setZoom(11);
+                map.setCenter(new google.maps.LatLng(24.799171, 46.738380));
+                marker.setAnimation(null);
+            });
+        }
+    };
+
+    // This function takes in a COLOR, and then creates a new marker
+    // icon of that color. The icon will be 21 px wide by 34 high, have an origin
+    // of 0, 0 and be anchored at 10, 34).
+    function makeMarkerIcon(markerColor) {
+        var markerImage = new google.maps.MarkerImage(
+            'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
+            '|40|_|%E2%80%A2',
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(10, 34),
+            new google.maps.Size(21, 34));
+        return markerImage;
     }
-};
 
-// This function takes in a COLOR, and then creates a new marker
-// icon of that color. The icon will be 21 px wide by 34 high, have an origin
-// of 0, 0 and be anchored at 10, 34).
-function makeMarkerIcon(markerColor) {
-    var markerImage = new google.maps.MarkerImage(
-        'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
-        '|40|_|%E2%80%A2',
-        new google.maps.Size(21, 34),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(10, 34),
-        new google.maps.Size(21, 34));
-    return markerImage;
-}
-
-function onError() {
-    alert("Oops! Google Map has failed to load. Please check your internet connection and try again.");
-}
+    function onError() {
+        alert("Oops! Google Map has failed to load. Please check your internet connection and try again.");
+    }
