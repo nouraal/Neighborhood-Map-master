@@ -241,8 +241,7 @@ populateInfoWindow = function(marker, infowindow) {
     }, 8000);
 
     var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + marker.title + '&format=json&callback=wikiCallback';
-    var url = 'http://en.wikipedia.org/wiki/' + marker.title;
-    var data = '<h4>' + marker.title + '</h4><hr><p>' + marker.description + '</p><a href=\"' + url + '\"> For more information</a>';
+    var data = '<h4>' + marker.title + '</h4><hr><p>' + marker.description ;
 
     // Using jQuery
     $.ajax({
@@ -254,6 +253,10 @@ populateInfoWindow = function(marker, infowindow) {
             // console.log(response);
             for (var i = 0; i < articleList.length; i++) {
                 var articeSet = articleList[i];
+                var url = 'http://en.wikipedia.org/wiki/' + articeSet;
+                data = data + '</p><a href=\"' + url + '\"> For more information</a>'
+                // console.log(data);
+
             }
 
             clearTimeout(wikiRequestTimeout);
